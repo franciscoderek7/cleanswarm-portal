@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CleanSwarm | Automation Workflows — n8n, Zapier & Truein Integration</title>
+    <meta name="description" content="CleanSwarm automation architecture: n8n workflows, Zapier integrations, Truein biometric attendance, and automated invoicing pipelines.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#f8fafc;--bg2:#fff;--bg3:#f1f5f9;--primary:#0ea5e9;--primary2:#0284c7;--dark:#0f172a;--txt:#1e293b;--txt2:#64748b;--txt3:#94a3b8;--border:#e2e8f0;--success:#10b981;--warning:#f59e0b;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+        a{color:var(--primary);text-decoration:none;transition:color .2s}
+        a:hover{color:var(--primary2)}
+
+        .nav{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:.8rem 1.5rem}
+        .nav-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+        .nav-logo{font-weight:700;font-size:1.1rem;color:var(--dark)}
+        .nav-logo span{color:var(--primary)}
+        .nav-back{font-size:.85rem;color:var(--txt2);display:flex;align-items:center;gap:.3rem}
+        .nav-back:hover{color:var(--primary)}
+
+        .hero{padding:4rem 1.5rem 3rem;text-align:center;background:linear-gradient(180deg,#f0f9ff 0%,var(--bg) 100%)}
+        .hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--dark);margin-bottom:.5rem}
+        .hero p{color:var(--txt2);max-width:600px;margin:0 auto;font-size:.95rem}
+        .hero-badge{display:inline-block;background:var(--primary);color:#fff;font-size:.7rem;font-weight:600;padding:.3rem .8rem;border-radius:20px;margin-bottom:1rem;letter-spacing:.5px}
+
+        .section{max-width:1100px;margin:0 auto;padding:3rem 1.5rem}
+        .section-lbl{font-size:.7rem;font-weight:700;color:var(--primary);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:.5rem}
+        .section h2{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700;color:var(--dark);margin-bottom:.5rem}
+        .desc{color:var(--txt2);font-size:.9rem;margin-bottom:2rem;max-width:650px}
+
+        .workflow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-top:1.5rem}
+        .workflow-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+        .workflow-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.08)}
+        .workflow-card h3{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:.3rem}
+        .workflow-card .trigger{font-size:.7rem;font-weight:600;color:var(--success);background:#ecfdf5;padding:.2rem .5rem;border-radius:4px;display:inline-block;margin-bottom:.8rem}
+        .workflow-card p{font-size:.85rem;color:var(--txt2);margin-bottom:.8rem}
+        .workflow-card .steps{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--txt3);background:var(--bg3);padding:.8rem;border-radius:6px;line-height:1.8}
+        .workflow-card .steps .step{display:flex;align-items:flex-start;gap:.4rem}
+        .workflow-card .steps .arrow{color:var(--primary);font-weight:700}
+
+        .integration-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;margin-top:1.5rem}
+        .int-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;text-align:center}
+        .int-card .icon{font-size:2rem;margin-bottom:.5rem}
+        .int-card h4{font-size:.9rem;font-weight:700;color:var(--dark);margin-bottom:.3rem}
+        .int-card p{font-size:.78rem;color:var(--txt2)}
+        .int-card .status{font-size:.65rem;font-weight:600;padding:.2rem .5rem;border-radius:4px;margin-top:.5rem;display:inline-block}
+        .int-card .status.live{background:#ecfdf5;color:var(--success)}
+        .int-card .status.planned{background:#fef3c7;color:var(--warning)}
+
+        .truein-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-top:2rem}
+        .truein-section h3{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+        .truein-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
+        .truein-feat{padding:.8rem;background:var(--bg3);border-radius:8px}
+        .truein-feat h5{font-size:.8rem;font-weight:600;color:var(--dark);margin-bottom:.2rem}
+        .truein-feat p{font-size:.72rem;color:var(--txt2)}
+
+        .api-block{background:var(--dark);color:#e2e8f0;border-radius:var(--radius);padding:1.5rem;margin-top:1.5rem;overflow-x:auto}
+        .api-block h4{color:var(--primary);font-size:.85rem;margin-bottom:.8rem;font-weight:600}
+        .api-block pre{font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.7;white-space:pre-wrap}
+        .api-block .comment{color:#64748b}
+        .api-block .key{color:#7dd3fc}
+        .api-block .val{color:#86efac}
+        .api-block .method{color:#fbbf24}
+
+        .footer{background:var(--dark);padding:2rem 1.5rem;margin-top:3rem}
+        .footer-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+        .footer p{font-size:.75rem;color:#94a3b8}
+        .footer a{color:#94a3b8;font-size:.75rem;margin-left:1rem}
+        .footer a:hover{color:#fff}
+
+        @media(max-width:768px){
+            .workflow-grid,.integration-grid,.truein-grid{grid-template-columns:1fr}
+            .footer-in{flex-direction:column;text-align:center}
+        }
+    </style>
+</head>
+<body>
+    <!-- Nav -->
+    <nav class="nav"><div class="nav-in">
+        <a href="index.html" class="nav-logo">Clean<span>Swarm</span></a>
+        <a href="index.html" class="nav-back">&larr; Back to Portal</a>
+    </div></nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">TECHNICAL ARCHITECTURE</div>
+        <h1>Automation Workflows</h1>
+        <p>Complete n8n/Zapier integration specs, Truein biometric attendance system, and automated invoicing pipelines for CleanSwarm's 3 LOI clients.</p>
+    </section>
+
+    <!-- Core Workflows -->
+    <section class="section">
+        <span class="section-lbl">N8N WORKFLOWS</span>
+        <h2>Core Automation Pipelines</h2>
+        <p class="desc">Self-hosted n8n instance handles all business logic. Zero recurring API costs. Full data ownership.</p>
+
+        <div class="workflow-grid">
+            <div class="workflow-card">
+                <div class="trigger">TRIGGER: New Job Created</div>
+                <h3>Job Assignment & Dispatch</h3>
+                <p>Auto-assigns cleaners based on proximity, availability, and skill match. Sends SMS confirmation to client and cleaner.</p>
+                <div class="steps">
+                    <div class="step"><span class="arrow">&rarr;</span> Webhook receives new job from portal</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Query Truein for available staff</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Calculate proximity (Google Maps API)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Assign best-fit cleaner</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Send SMS via Twilio (client + cleaner)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Update job status in database</div>
+                </div>
+            </div>
+
+            <div class="workflow-card">
+                <div class="trigger">TRIGGER: Truein Clock-Out</div>
+                <h3>Automated Invoice Generation</h3>
+                <p>When cleaner clocks out via Truein biometric, invoice auto-generates with hours worked, travel time, and supplies used.</p>
+                <div class="steps">
+                    <div class="step"><span class="arrow">&rarr;</span> Truein webhook: clock-out event</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Calculate billable hours (minus breaks)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Pull job rate from client contract</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Generate PDF invoice (template)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Email invoice to client</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Update accounting ledger</div>
+                </div>
+            </div>
+
+            <div class="workflow-card">
+                <div class="trigger">TRIGGER: Daily 6:00 AM</div>
+                <h3>Morning Dispatch Report</h3>
+                <p>Daily briefing sent to operations manager with today's jobs, assigned staff, potential conflicts, and weather alerts.</p>
+                <div class="steps">
+                    <div class="step"><span class="arrow">&rarr;</span> Cron trigger: 6:00 AM EST daily</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Query today's scheduled jobs</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Check Truein: who's available</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Flag conflicts/understaffing</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Pull weather forecast (OpenWeather)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Send Slack/Email digest</div>
+                </div>
+            </div>
+
+            <div class="workflow-card">
+                <div class="trigger">TRIGGER: Invoice 7 Days Overdue</div>
+                <h3>Payment Follow-Up Sequence</h3>
+                <p>Automated payment reminders escalating from friendly reminder to formal notice. Reduces AR by 40%.</p>
+                <div class="steps">
+                    <div class="step"><span class="arrow">&rarr;</span> Check: invoice unpaid &gt; 7 days</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Day 7: Friendly email reminder</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Day 14: SMS + email with late fee warning</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Day 21: Phone call task to manager</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Day 30: Formal notice + service pause</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Update client risk score</div>
+                </div>
+            </div>
+
+            <div class="workflow-card">
+                <div class="trigger">TRIGGER: Job Completed</div>
+                <h3>Quality Assurance & Review</h3>
+                <p>Post-job quality check flow. Client receives satisfaction survey. Photos uploaded by cleaner are archived.</p>
+                <div class="steps">
+                    <div class="step"><span class="arrow">&rarr;</span> Cleaner uploads completion photos</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Photos stored in S3 bucket</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Client receives rating request (1-5)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> If rating &lt; 3: alert manager</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Update cleaner performance score</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Archive job record</div>
+                </div>
+            </div>
+
+            <div class="workflow-card">
+                <div class="trigger">TRIGGER: New LOI Signed</div>
+                <h3>Client Onboarding Pipeline</h3>
+                <p>Full onboarding automation: contract generation, Truein setup, first job scheduling, and welcome sequence.</p>
+                <div class="steps">
+                    <div class="step"><span class="arrow">&rarr;</span> LOI form submitted on portal</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Generate contract PDF (DocuSign)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Create client in Truein system</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Setup recurring job schedule</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Send welcome email sequence (5 emails)</div>
+                    <div class="step"><span class="arrow">&rarr;</span> Assign account manager</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zapier Integrations -->
+    <section class="section">
+        <span class="section-lbl">ZAPIER BACKUP LAYER</span>
+        <h2>Zapier Integrations (Redundancy)</h2>
+        <p class="desc">Zapier handles non-critical integrations and serves as failover if n8n goes down. Free tier covers all current volume.</p>
+
+        <div class="integration-grid">
+            <div class="int-card">
+                <div class="icon">📧</div>
+                <h4>Gmail &rarr; CRM</h4>
+                <p>New client emails auto-create leads in pipeline</p>
+                <span class="status live">LIVE</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">📅</div>
+                <h4>Calendar &rarr; Jobs</h4>
+                <p>Google Calendar events sync to job scheduler</p>
+                <span class="status live">LIVE</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">💳</div>
+                <h4>Stripe &rarr; Accounting</h4>
+                <p>Payment received triggers bookkeeping entry</p>
+                <span class="status planned">PENDING STRIPE</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">📱</div>
+                <h4>Form &rarr; Onboarding</h4>
+                <p>New LOI form triggers full onboarding sequence</p>
+                <span class="status live">LIVE</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">⭐</div>
+                <h4>Review &rarr; Response</h4>
+                <p>Google review triggers thank-you or escalation</p>
+                <span class="status planned">Q3 2026</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">📊</div>
+                <h4>Weekly &rarr; Report</h4>
+                <p>Auto-generate weekly KPI report for clients</p>
+                <span class="status live">LIVE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Truein Integration -->
+    <section class="section">
+        <span class="section-lbl">BIOMETRIC ATTENDANCE</span>
+        <h2>Truein Integration</h2>
+        <p class="desc">Face-recognition attendance system for field cleaners. Eliminates time theft, automates payroll, and provides real-time location verification.</p>
+
+        <div class="truein-section">
+            <h3>Why Truein for CleanSwarm</h3>
+            <div class="truein-grid">
+                <div class="truein-feat">
+                    <h5>Face Recognition Clock-In</h5>
+                    <p>Cleaners clock in/out via phone camera at job site. GPS-verified location. No buddy punching possible.</p>
+                </div>
+                <div class="truein-feat">
+                    <h5>Geofencing</h5>
+                    <p>Set 100m radius around each job site. Clock-in only works within geofence. Prevents false attendance.</p>
+                </div>
+                <div class="truein-feat">
+                    <h5>Real-Time Dashboard</h5>
+                    <p>See who's on-site, who's late, who's done. Live map view of all active cleaners across all clients.</p>
+                </div>
+                <div class="truein-feat">
+                    <h5>Automated Payroll</h5>
+                    <p>Hours auto-calculated. Overtime flagged. Export to QuickBooks/Wave. Zero manual timesheets.</p>
+                </div>
+                <div class="truein-feat">
+                    <h5>Webhook API</h5>
+                    <p>Every clock-in/out fires webhook to n8n. Triggers job status updates, invoice generation, and alerts.</p>
+                </div>
+                <div class="truein-feat">
+                    <h5>Pricing: $2/user/month</h5>
+                    <p>Free for up to 25 users. Scales to enterprise. No hardware needed — uses existing smartphones.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Example -->
+        <div class="api-block">
+            <h4>Truein Webhook Payload (Clock-Out Event)</h4>
+            <pre><span class="comment">// Fired when cleaner completes face-scan clock-out</span>
+<span class="method">POST</span> /webhooks/truein/clock-out
+
+{
+  <span class="key">"event"</span>: <span class="val">"attendance.clock_out"</span>,
+  <span class="key">"employee_id"</span>: <span class="val">"CS-007"</span>,
+  <span class="key">"employee_name"</span>: <span class="val">"Sarah Johnson"</span>,
+  <span class="key">"site_id"</span>: <span class="val">"site_ali_office_01"</span>,
+  <span class="key">"clock_in"</span>: <span class="val">"2026-05-24T08:02:14Z"</span>,
+  <span class="key">"clock_out"</span>: <span class="val">"2026-05-24T12:15:42Z"</span>,
+  <span class="key">"hours_worked"</span>: <span class="val">4.22</span>,
+  <span class="key">"location"</span>: {
+    <span class="key">"lat"</span>: <span class="val">44.3091</span>,
+    <span class="key">"lng"</span>: <span class="val">-78.3197</span>,
+    <span class="key">"within_geofence"</span>: <span class="val">true</span>
+  },
+  <span class="key">"verification"</span>: <span class="val">"face_match_98.7%"</span>
+}
+
+<span class="comment">// n8n processes this to:</span>
+<span class="comment">// 1. Calculate billable amount ($35/hr × 4.22 = $147.70)</span>
+<span class="comment">// 2. Generate invoice PDF</span>
+<span class="comment">// 3. Email to client (Ali's Cleaning Co.)</span>
+<span class="comment">// 4. Update job status → "Completed"</span></pre>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section">
+        <span class="section-lbl">INFRASTRUCTURE</span>
+        <h2>Tech Stack & Hosting</h2>
+        <p class="desc">Zero-cost infrastructure using free tiers. Scales to 100+ clients before any paid upgrades needed.</p>
+
+        <div class="integration-grid">
+            <div class="int-card">
+                <div class="icon">⚡</div>
+                <h4>n8n (Self-Hosted)</h4>
+                <p>Railway free tier. Unlimited workflows. Full API access.</p>
+                <span class="status live">$0/mo</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">🔗</div>
+                <h4>Zapier (Free)</h4>
+                <p>5 Zaps, 100 tasks/mo. Backup integrations only.</p>
+                <span class="status live">$0/mo</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">👤</div>
+                <h4>Truein</h4>
+                <p>Free up to 25 users. Face recognition + GPS.</p>
+                <span class="status live">$0/mo</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">🌐</div>
+                <h4>GitHub Pages</h4>
+                <p>Static portal hosting. Unlimited bandwidth.</p>
+                <span class="status live">$0/mo</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">📨</div>
+                <h4>Twilio (Pay-as-go)</h4>
+                <p>SMS notifications. ~$0.01/msg. Low volume.</p>
+                <span class="status planned">~$5/mo</span>
+            </div>
+            <div class="int-card">
+                <div class="icon">💾</div>
+                <h4>Supabase (Free)</h4>
+                <p>PostgreSQL database. 500MB. Auth included.</p>
+                <span class="status live">$0/mo</span>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:2rem;padding:1.5rem;background:var(--bg3);border-radius:var(--radius)">
+            <p style="font-size:1.2rem;font-weight:700;color:var(--dark)">Total Monthly Overhead: <span style="color:var(--success)">~$5/mo</span></p>
+            <p style="font-size:.8rem;color:var(--txt2);margin-top:.3rem">Scales to 100+ clients before needing paid upgrades. Revenue potential: $12,000-$75,000/mo.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-in">
+            <p>&copy; 2026 CleanSwarm. A Francisco Holdings Inc. Company. Protected by <a href="https://omniaguard.com" style="color:var(--primary)">OmniaGuard</a>.</p>
+            <div>
+                <a href="index.html">Portal</a>
+                <a href="mailto:derek@cleanswarm.ca">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

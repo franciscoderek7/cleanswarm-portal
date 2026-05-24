@@ -249,6 +249,20 @@
         </div>
     </section>
 
+    <!-- Demo Request / Email Capture -->
+    <section class="section" style="text-align:center">
+        <span class="section-lbl">GET STARTED</span>
+        <h2>Book a Free Demo</h2>
+        <p class="desc" style="margin:0 auto 1.5rem">See how CleanSwarm can automate your cleaning business in 15 minutes. No commitment required.</p>
+        <form id="demo-form" style="max-width:500px;margin:0 auto;display:grid;gap:.8rem" onsubmit="event.preventDefault();var n=document.getElementById('demo-name').value;var e=document.getElementById('demo-email').value;var b=document.getElementById('demo-biz').value;if(n&&e&&e.includes('@')){document.getElementById('demo-form').innerHTML='<p style=color:var(--success);font-weight:600;font-size:1.1rem>\u2713 Demo request received! We\'ll contact you within 24 hours.</p>';localStorage.setItem('cleanswarm_lead',JSON.stringify({name:n,email:e,business:b,date:new Date().toISOString()}))}else{alert('Please fill in all fields.')}">
+            <input id="demo-name" type="text" placeholder="Your name" required style="padding:.7rem 1rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;outline:none" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+            <input id="demo-email" type="email" placeholder="your@email.com" required style="padding:.7rem 1rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;outline:none" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+            <input id="demo-biz" type="text" placeholder="Business name (optional)" style="padding:.7rem 1rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;outline:none" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+            <button type="submit" class="btn-primary" style="border:none;cursor:pointer;font-size:.9rem">Request Free Demo →</button>
+        </form>
+        <p style="font-size:.7rem;color:var(--txt3);margin-top:.8rem">Free 15-min demo. No credit card required. Cancel anytime.</p>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-in">
@@ -266,7 +280,7 @@
             </div>
             <div class="footer-col">
                 <h5>Company</h5>
-                <a href="https://franciscoderek7.github.io/omniaguard/" target="_blank">OmniaGuard (AI Security)</a>
+                <a href="https://omniaguard.com/" target="_blank">OmniaGuard (AI Security)</a>
                 <a href="#">Francisco Holdings Inc.</a>
             </div>
         </div>
