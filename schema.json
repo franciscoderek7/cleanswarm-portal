@@ -1,0 +1,15 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CleanSwarm",
+  "description": "CleanSwarm \u2014 Intelligent cleaning business management software. Automated scheduling, dispatch, and quality assurance for commercial cleaning companies.",
+  "url": "https://franciscoderek7.github.io/cleanswarm-portal",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "USD",
+    "lowPrice": "99",
+    "highPrice": "2499"
+  }
+}
